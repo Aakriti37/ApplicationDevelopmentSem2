@@ -1,0 +1,6 @@
+@Sem2FirstProject_HostAddress = http://localhost:5137
+
+GET {{Sem2FirstProject_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
