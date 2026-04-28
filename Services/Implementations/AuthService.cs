@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Sem2FirstProject.Services.Implementations
 {
-    public class AuthService(UserManager<User> userManager, AppDbContext dbContext) : IAuthService
+    public class AuthService(UserManager<User> userManager, AppDbContext dbContext, SignInManager<User> signInManager) : IAuthService
     {
         public async Task<RegistrationResponse> RegisterUserAsync(RegisterUserDto registerUserDto)
         {
@@ -69,9 +69,30 @@ namespace Sem2FirstProject.Services.Implementations
         }
 
 
-        public async Task Login(LoginDto loginDto)
+        public async Task<LoginResponse> Login(LoginDto loginDto)
         {
             User? user = await userManager.FindByEmailAsync(loginDto.Email);
+
+            if(user is null)
+            {
+                return new LoginResponse
+                {
+                    Success = false,
+                    Message =  "User not found"
+                };
+            }
+
+            var signInResult = await signInManager.CheckPasswordSignInAsync(user, loginDto.Password, lockoutOnFailure: true);
+
+            if (!signInResult.Succeeded)
+            {
+                return new LoginResponse
+                {
+                    Success = false,
+                    Message = "Password didn't match"
+                };
+            }
+
         }
 
 
