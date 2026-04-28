@@ -6,5 +6,7 @@ namespace Sem2FirstProject.Services.Interfaces
     public interface IAuthService
     {
         public Task<RegistrationResponse> RegisterUserAsync(RegisterUserDto registerUserDto);
+
+        public Task<LoginResponse> Login(LoginDto loginDto);
     }
 }

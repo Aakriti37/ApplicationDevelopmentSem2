@@ -93,6 +93,13 @@ namespace Sem2FirstProject.Services.Implementations
                 };
             }
 
+            return new LoginResponse
+            {
+                Success = true,
+                Message = "Login Success",
+                Token = ""
+            };
+
         }
 
 

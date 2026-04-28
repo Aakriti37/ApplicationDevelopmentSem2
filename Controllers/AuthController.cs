@@ -10,7 +10,7 @@ namespace Sem2FirstProject.Controllers
     [ApiController]
     public class AuthController(IAuthService authService) : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult<RegistrationResponse>> RegisterUser(RegisterUserDto userDto)
         {
             var response = await authService.RegisterUserAsync(userDto);
@@ -22,5 +22,19 @@ namespace Sem2FirstProject.Controllers
 
             return BadRequest(response);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto loginDto)
+        {
+            var loginResponse = await authService.Login(loginDto);
+            if (loginResponse.Success)
+            {
+                return Ok(loginResponse);
+            }
+            return Unauthorized(loginResponse);
+        }
+
+
+
     }
 }
